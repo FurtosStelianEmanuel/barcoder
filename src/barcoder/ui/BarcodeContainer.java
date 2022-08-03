@@ -7,7 +7,6 @@ package barcoder.ui;
 
 import annotations.Injectable;
 import barcoder.ui.common.Styles;
-import barcoder.ui.extensions.ComponentResizer;
 import barcoder.ui.factory.ControlPanelFactory;
 import barcoder.utilities.DrawingUtils;
 import barcoder.utilities.ImageUtils;
@@ -32,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import ui.extensions.ComponentResizer;
 
 /**
  *
@@ -64,7 +64,7 @@ public class BarcodeContainer extends JFrame implements BarcodeContainerInterfac
         this.imageUtils = imageUtils;
 
         painter = new BarcodeContainerPainter();
-        new ComponentResizer().registerComponent(this);
+        new ComponentResizer().registerComponent(BarcodeContainer.this);
 
         setSize(initialContainerSize);
         setLocationRelativeTo(null);
@@ -76,7 +76,7 @@ public class BarcodeContainer extends JFrame implements BarcodeContainerInterfac
         setPainterSize();
 
         controlPanel = controlPanelFactory.getNewInstance();
-        controlPanel.bindToContainer(this);
+        controlPanel.bindToContainer(BarcodeContainer.this);
         controlPanel.setHighlightToggle(isHighlightingEnabled);
 
         add(painter);

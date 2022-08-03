@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package core;
+package core.communication;
 
 /**
  *
  * @author Manel
+ * @param <K>
  */
-public interface BarcodeProviderInterface {
+public abstract class ResponseCallbackAdapter<K> {
 
-    Barcode getBarcodeFromString(String input, String barcodeType) throws BarcodeGenerationException;
+    public abstract void onResponse(K responseData);
 }

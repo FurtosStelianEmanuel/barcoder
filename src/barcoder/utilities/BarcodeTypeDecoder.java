@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package core;
+package barcoder.utilities;
 
 /**
  *
  * @author Manel
  */
-public interface BarcodeProviderInterface {
+public interface BarcodeTypeDecoder {
 
-    Barcode getBarcodeFromString(String input, String barcodeType) throws BarcodeGenerationException;
+    String getApiSpecificValueFromCasualName(String textRepresentation);
+
+    String[] getAllCasualNames();
 }

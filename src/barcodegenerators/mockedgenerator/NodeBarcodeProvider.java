@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mockedbarcodegenerator;
+package barcodegenerators.mockedgenerator;
 
 import annotations.Injectable;
 import core.Barcode;
@@ -32,7 +32,7 @@ public class NodeBarcodeProvider implements BarcodeProviderInterface {
     }
 
     @Override
-    public Barcode getBarcodeFromString(String input) throws BarcodeGenerationException {
+    public Barcode getBarcodeFromString(String input, String barcodeType) throws BarcodeGenerationException {
         try {
             String url = String.format("%s?%s=%s",
                     "http://localhost:666/api/barcode",

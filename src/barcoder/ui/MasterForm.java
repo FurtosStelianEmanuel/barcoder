@@ -6,9 +6,6 @@
 package barcoder.ui;
 
 import annotations.Injectable;
-import barcoder.filesystem.FileManager;
-import barcoder.filesystem.FileSystemException;
-import barcoder.filesystem.PathManager;
 import barcoder.ui.factory.BarcodeContainerFactory;
 import core.BarcodeContainerInterface;
 import core.BarcodeGenerationException;
@@ -20,6 +17,9 @@ import core.data.serialization.BarcodeContainerSerializer;
 import core.data.serialization.Configuration;
 import core.data.serialization.JsonSerializerException;
 import core.data.serialization.JsonSerializerInterface;
+import filesystem.FileManager;
+import filesystem.FileSystemException;
+import filesystem.PathManager;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.nio.file.Path;

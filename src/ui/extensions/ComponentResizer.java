@@ -1,4 +1,4 @@
-package barcoder.ui.extensions;
+package ui.extensions;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -10,7 +10,7 @@ import javax.swing.SwingUtilities;
  *  The ComponentResizer allows you to resize a component by dragging a border
  *  of the component.
  */
-public class ComponentResizer extends MouseAdapter
+public final class ComponentResizer extends MouseAdapter
 {
 	private final static Dimension MINIMUM_SIZE = new Dimension(10, 10);
 	private final static Dimension MAXIMUM_SIZE =

@@ -6,14 +6,14 @@
 package core.data.serialization;
 
 import annotations.Injectable;
-import barcoder.filesystem.FileManager;
-import barcoder.filesystem.PathManager;
 import barcoder.ui.factory.BarcodeContainerFactory;
 import barcoder.utilities.ImageUtils;
 import core.BarcodeContainerInterface;
 import core.BarcodeGenerationException;
 import core.LocalBarcodeProviderInterface;
 import core.SetupException;
+import filesystem.FileManager;
+import filesystem.PathManager;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;

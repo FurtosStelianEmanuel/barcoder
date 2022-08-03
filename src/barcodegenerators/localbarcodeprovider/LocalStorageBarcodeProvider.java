@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package localbarcodeprovider;
+package barcodegenerators.localbarcodeprovider;
 
 import annotations.Injectable;
-import barcoder.filesystem.PathManager;
 import core.Barcode;
 import core.BarcodeGenerationException;
 import core.BarcodeMeasurementsHelperInterface;
 import core.LocalBarcodeProviderInterface;
 import core.communication.CommunicationException;
 import core.communication.http.ImageFetcherInterface;
+import filesystem.PathManager;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.nio.file.Paths;

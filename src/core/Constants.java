@@ -5,7 +5,7 @@
  */
 package core;
 
-import barcoder.filesystem.FileManager.FileExtensions;
+import filesystem.FileManager.FileExtensions;
 
 /**
  *

@@ -6,16 +6,18 @@
 package barcoder.ui;
 
 import annotations.Injectable;
+import barcoder.ui.factory.BarcodeFormFactory;
+import barcoder.utilities.barcodeform.BarcodeFormInterface;
+import barcoder.utilities.barcodeform.BarcodeFormResult;
 import core.Barcode;
 import core.BarcodeContainerInterface;
 import core.BarcodeGenerationException;
 import core.BarcodeProviderInterface;
-import java.awt.Component;
+import core.communication.ResponseCallbackAdapter;
 import java.awt.Point;
 import java.awt.Window;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -30,10 +32,12 @@ public class ControlPanel extends javax.swing.JPanel implements BarcodeContainer
 
     private BarcodeContainerInterface barcodeContainer;
     private final BarcodeProviderInterface barcodeProvider;
+    private final BarcodeFormInterface barcodeForm;
 
-    public ControlPanel(BarcodeProviderInterface barcodeProvider) {
+    public ControlPanel(BarcodeProviderInterface barcodeProvider, BarcodeFormFactory barcodeFormFactory) {
         initComponents();
         this.barcodeProvider = barcodeProvider;
+        barcodeForm = barcodeFormFactory.getNewInstance();
     }
 
     @Override
@@ -155,17 +159,21 @@ public class ControlPanel extends javax.swing.JPanel implements BarcodeContainer
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            String barcodeInput = JOptionPane.showInputDialog((Component) getContainer(), "Enter barcode text", null);
-            if (barcodeInput == null || barcodeInput.isEmpty()) {
-                return;
-            }
+        barcodeForm.showFormAndCallbackWithResult(new ResponseCallbackAdapter<BarcodeFormResult>() {
+            @Override
+            public void onResponse(BarcodeFormResult formData) {
+                try {
+                    if (formData.barcodeText == null || formData.barcodeText.isEmpty()) {
+                        return;
+                    }
 
-            Barcode barcode = barcodeProvider.getBarcodeFromString(barcodeInput);
-            getContainer().addBarcode(barcode);
-        } catch (BarcodeGenerationException ex) {
-            Logger.getLogger(ControlPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                    Barcode barcode = barcodeProvider.getBarcodeFromString(formData.barcodeText, formData.barcodeType);
+                    getContainer().addBarcode(barcode);
+                } catch (BarcodeGenerationException ex) {
+                    Logger.getLogger(ControlPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed

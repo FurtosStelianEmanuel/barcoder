@@ -9,12 +9,15 @@ import banana.Injector;
 import banana.exceptions.ClassNotInjectable;
 import banana.exceptions.InterfaceNotImplemented;
 import banana.exceptions.UnresolvableDependency;
-import barcoder.filesystem.FileManager;
-import barcoder.filesystem.PathManager;
+import barcodegenerators.localbarcodeprovider.LocalStorageBarcodeProvider;
+import barcodegenerators.tec_it.TecItBarcodeProvider;
+import barcodegenerators.tec_it.TecItBarcodeTypeDecoder;
 import barcoder.ui.MasterForm;
 import barcoder.ui.common.Styles;
 import barcoder.ui.factory.BarcodeContainerFactory;
+import barcoder.ui.factory.BarcodeFormFactory;
 import barcoder.ui.factory.ControlPanelFactory;
+import barcoder.utilities.BarcodeTypeDecoder;
 import barcoder.utilities.DrawingUtils;
 import barcoder.utilities.ImageUtils;
 import communication.http.ImageFetcher;
@@ -28,11 +31,12 @@ import core.communication.http.ImageFetcherInterface;
 import core.data.serialization.BananaConvertWrapper;
 import core.data.serialization.BarcodeContainerSerializer;
 import core.data.serialization.JsonSerializerInterface;
+import filesystem.FileManager;
+import filesystem.PathManager;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import localbarcodeprovider.LocalStorageBarcodeProvider;
-import tec_it.TecItBarcodeProvider;
+import utils.URLHelper;
 
 /**
  *
@@ -81,7 +85,10 @@ public class Barcoder {
                 .addDependency(LocalBarcodeProviderInterface.class, LocalStorageBarcodeProvider.class)
                 .addDependency(BarcodeMeasurementsHelperInterface.class, BarcodeMeasurementsHelper.class)
                 .addDependency(ImageUtils.class, ImageUtils.class)
-                .addDependency(DrawingUtils.class, DrawingUtils.class);
+                .addDependency(DrawingUtils.class, DrawingUtils.class)
+                .addDependency(BarcodeFormFactory.class, BarcodeFormFactory.class)
+                .addDependency(BarcodeTypeDecoder.class, TecItBarcodeTypeDecoder.class)
+                .addDependency(URLHelper.class, URLHelper.class);
         
         applicationContainer.initialise();
         

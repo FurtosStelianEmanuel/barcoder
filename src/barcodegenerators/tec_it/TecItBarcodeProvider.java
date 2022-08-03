@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tec_it;
+package barcodegenerators.tec_it;
 
 import annotations.Injectable;
 import core.Barcode;
@@ -15,6 +15,7 @@ import core.communication.http.ImageFetcherInterface;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
+import utils.URLHelper;
 
 /**
  *
@@ -26,20 +27,22 @@ public class TecItBarcodeProvider implements BarcodeProviderInterface {
     private final ImageFetcherInterface imageFetcher;
     private final String barcodeAPIUrl = "https://barcode.tec-it.com/barcode.ashx";
     private final BarcodeMeasurementsHelperInterface barcodeMeasurementsHelper;
+    private final URLHelper urlHelper;
 
-    public TecItBarcodeProvider(ImageFetcherInterface imageFetcher, BarcodeMeasurementsHelperInterface barcodeMeasurementsHelper) {
+    public TecItBarcodeProvider(ImageFetcherInterface imageFetcher, BarcodeMeasurementsHelperInterface barcodeMeasurementsHelper, URLHelper urlHelper) {
         this.imageFetcher = imageFetcher;
         this.barcodeMeasurementsHelper = barcodeMeasurementsHelper;
+        this.urlHelper = urlHelper;
     }
 
     @Override
-    public Barcode getBarcodeFromString(String input) throws BarcodeGenerationException {
+    public Barcode getBarcodeFromString(String input, String barcodeType) throws BarcodeGenerationException {
         try {
             String url = String.format("%s?%s=%s&%s=%s&%s=%s",
                     barcodeAPIUrl,
                     BarcodeAPIParam.InputString.getUrlEncoded(),
-                    input, BarcodeAPIParam.Code.getUrlEncoded(),
-                    Codes.Code128.getUrlEncoded(),
+                    urlHelper.encode(input), BarcodeAPIParam.Code.getUrlEncoded(),
+                    barcodeType,
                     BarcodeAPIParam.TranslateEsc.getUrlEncoded(),
                     Translate.On.getUrlEncoded()
             );

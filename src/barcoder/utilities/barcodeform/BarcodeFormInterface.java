@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package core;
+package barcoder.utilities.barcodeform;
+
+import core.communication.ResponseCallbackAdapter;
 
 /**
  *
  * @author Manel
  */
-public interface BarcodeProviderInterface {
+public interface BarcodeFormInterface {
 
-    Barcode getBarcodeFromString(String input, String barcodeType) throws BarcodeGenerationException;
+    void showFormAndCallbackWithResult(ResponseCallbackAdapter adapter);
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package barcoder.filesystem;
+package filesystem;
 
 import annotations.Injectable;
 import java.nio.file.Path;
