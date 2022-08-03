@@ -6,9 +6,9 @@
 package barcodegenerators.localbarcodeprovider;
 
 import annotations.Injectable;
+import barcoder.utilities.BarcodeTypeDecoder;
 import core.Barcode;
 import core.BarcodeGenerationException;
-import core.BarcodeMeasurementsHelperInterface;
 import core.LocalBarcodeProviderInterface;
 import core.communication.CommunicationException;
 import core.communication.http.ImageFetcherInterface;
@@ -26,22 +26,18 @@ import javax.swing.ImageIcon;
 public class LocalStorageBarcodeProvider implements LocalBarcodeProviderInterface {
 
     private final ImageFetcherInterface imageFetcher;
-    private final BarcodeMeasurementsHelperInterface barcodeMeasurementsHelper;
+    private final BarcodeTypeDecoder barcodeTypeDecoder;
 
-    public LocalStorageBarcodeProvider(ImageFetcherInterface imageFetcher, PathManager pathManager, BarcodeMeasurementsHelperInterface barcodeMeasurementsHelper) {
+    public LocalStorageBarcodeProvider(ImageFetcherInterface imageFetcher, PathManager pathManager, BarcodeTypeDecoder barcodeTypeDecoder) {
         this.imageFetcher = imageFetcher;
-        this.barcodeMeasurementsHelper = barcodeMeasurementsHelper;
+        this.barcodeTypeDecoder = barcodeTypeDecoder;
     }
 
     @Override
     public Barcode getBarcodeFromUrl(String url, String textRepresentation) throws BarcodeGenerationException {
         try {
             ImageIcon imageIcon = imageFetcher.fetchImage(Paths.get(url).toFile());
-            Barcode barcode = new Barcode(imageIcon, textRepresentation);
-
-            if (barcodeMeasurementsHelper.getActualBarcodeHeight() == -2) {
-                barcodeMeasurementsHelper.setActualBarcodeHeight(calculateActualBarcodeHeight(barcode));
-            }
+            Barcode barcode = new Barcode(imageIcon, textRepresentation, barcodeTypeDecoder.getCasualNameFromApiSpecificValue("TRB SA SERIALIZEZ SI TYPE"));
 
             return barcode;
         } catch (CommunicationException ex) {

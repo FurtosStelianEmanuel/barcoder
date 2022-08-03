@@ -12,7 +12,6 @@ import barcoder.utilities.DrawingUtils;
 import barcoder.utilities.ImageUtils;
 import core.Barcode;
 import core.BarcodeContainerInterface;
-import core.BarcodeMeasurementsHelperInterface;
 import core.MasterSlaveLink;
 import core.ui.DrawableBarcode;
 import java.awt.Component;
@@ -44,7 +43,6 @@ public class BarcodeContainer extends JFrame implements BarcodeContainerInterfac
     private final BarcodeContainerPainter painter;
     private final ControlPanelInterface controlPanel;
     private final ImageUtils imageUtils;
-    private final BarcodeMeasurementsHelperInterface barcodeMeasurementsHelper;
     private final Styles styles;
     private MasterSlaveLink master;
 
@@ -57,10 +55,9 @@ public class BarcodeContainer extends JFrame implements BarcodeContainerInterfac
     private static final Cursor CURSOR_DELETE = new Cursor(Cursor.HAND_CURSOR);
     private final DrawingUtils drawingUtils;
 
-    public BarcodeContainer(Styles styles, ControlPanelFactory controlPanelFactory, BarcodeMeasurementsHelperInterface barcodeMeasurementsHelper, ImageUtils imageUtils, DrawingUtils drawingUtils) {
+    public BarcodeContainer(Styles styles, ControlPanelFactory controlPanelFactory, ImageUtils imageUtils, DrawingUtils drawingUtils) {
         this.barcodes = new ArrayList();
         this.styles = styles;
-        this.barcodeMeasurementsHelper = barcodeMeasurementsHelper;
         this.imageUtils = imageUtils;
 
         painter = new BarcodeContainerPainter();
@@ -94,6 +91,10 @@ public class BarcodeContainer extends JFrame implements BarcodeContainerInterfac
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent me) {
+                if (!isDeleteEnabled) {
+                    return;
+                }
+
                 for (DrawableBarcode drawableBarcode : getBarcodes()) {
                     boolean isCurrentlyHovered = drawableBarcode.isPointHoveringBarcode(me.getPoint());
 
@@ -159,14 +160,9 @@ public class BarcodeContainer extends JFrame implements BarcodeContainerInterfac
     }
 
     @Override
-    public void addBarcode(DrawableBarcode barcode) {
-        barcodes.add(barcode);
-        autoAlignBarcodes();
-    }
-
-    @Override
     public void addBarcode(Barcode barcode) {
-        addBarcode(new DrawableBarcode(barcode));
+        barcodes.add(new DrawableBarcode(barcode));
+        autoAlignBarcodes();
     }
 
     @Override
@@ -177,8 +173,8 @@ public class BarcodeContainer extends JFrame implements BarcodeContainerInterfac
         for (DrawableBarcode drawableBarcode : getBarcodes()) {
             drawableBarcode.setIsHovered(false);
         }
-        repaint();
 
+        repaint();
     }
 
     @Override
@@ -220,7 +216,7 @@ public class BarcodeContainer extends JFrame implements BarcodeContainerInterfac
             if (i < barcodes.size() - 1) {
                 DrawableBarcode nextBarcode = barcodes.get(i + 1);
                 if (nx + nextBarcode.getImageRepresentation().getIconWidth() + AutoAlignParameters.spacingX >= painter.getWidth()) {
-                    ny += drawableBarcode.getImageRepresentation().getIconHeight() + AutoAlignParameters.spacingY;
+                    ny += drawableBarcode.getImageRepresentation().getIconHeight() + BarcodeTypeParameters.height + AutoAlignParameters.spacingY;
                     nx = AutoAlignParameters.startX;
                 }
             }
@@ -240,7 +236,6 @@ public class BarcodeContainer extends JFrame implements BarcodeContainerInterfac
             for (DrawableBarcode drawableBarcode : barcodes) {
                 if (!isHighlightingEnabled || highlightedBarcode == null || highlightedBarcode == drawableBarcode) {
                     Image image = drawableBarcode.getImageRepresentation().getImage();
-                    image = imageUtils.getCroppedImage(image, drawableBarcode.getImageRepresentation().getIconWidth(), barcodeMeasurementsHelper.getActualBarcodeHeight());
                     g2d.drawImage(
                             image,
                             (int) drawableBarcode.getLocation().getX(),
@@ -248,10 +243,10 @@ public class BarcodeContainer extends JFrame implements BarcodeContainerInterfac
                             this);
                 }
 
-                Rectangle barcodeTextBox = new Rectangle((int) (drawableBarcode.getLocation().getX()), (int) (drawableBarcode.getLocation().getY() + barcodeMeasurementsHelper.getActualBarcodeHeight()), (int) drawableBarcode.getImageRepresentation().getIconWidth(), (int) drawableBarcode.getImageRepresentation().getIconHeight() - barcodeMeasurementsHelper.getActualBarcodeHeight());
+                Rectangle barcodeTypeBox = new Rectangle((int) (drawableBarcode.getLocation().getX()), (int) (drawableBarcode.getLocation().getY() + drawableBarcode.getImageRepresentation().getIconHeight()), (int) drawableBarcode.getImageRepresentation().getIconWidth(), BarcodeTypeParameters.height);
                 g2d.setColor(styles.barcodeBackground);
-                g2d.fillRect((int) barcodeTextBox.getX(), (int) barcodeTextBox.getY(), (int) barcodeTextBox.getWidth(), (int) barcodeTextBox.getHeight());
-                drawingUtils.drawCenteredString(g, drawableBarcode.getTextRepresentation(), barcodeTextBox, styles.textFont);
+                g2d.fillRect((int) barcodeTypeBox.getX(), (int) barcodeTypeBox.getY(), (int) barcodeTypeBox.getWidth(), (int) barcodeTypeBox.getHeight());
+                drawingUtils.drawCenteredString(g, drawableBarcode.getBarcodeType(), barcodeTypeBox, styles.textFont);
             }
         }
     }
@@ -263,6 +258,11 @@ public class BarcodeContainer extends JFrame implements BarcodeContainerInterfac
     private static class AutoAlignParameters {
 
         static int startX = 20, staryY = 20, spacingX = 20, spacingY = 20;
+    }
+
+    private static class BarcodeTypeParameters {
+
+        static int height = 30;
     }
 
     private void positionAndResizeControlPanel() {

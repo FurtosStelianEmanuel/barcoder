@@ -8,7 +8,6 @@ package barcodegenerators.mockedgenerator;
 import annotations.Injectable;
 import core.Barcode;
 import core.BarcodeGenerationException;
-import core.BarcodeMeasurementsHelperInterface;
 import core.BarcodeProviderInterface;
 import core.communication.CommunicationException;
 import core.communication.http.ImageFetcherInterface;
@@ -24,11 +23,9 @@ import javax.swing.ImageIcon;
 public class NodeBarcodeProvider implements BarcodeProviderInterface {
 
     private final ImageFetcherInterface imageFetcher;
-    private final BarcodeMeasurementsHelperInterface barcodeMeasurementsHelper;
 
-    public NodeBarcodeProvider(ImageFetcherInterface imageFetcher, BarcodeMeasurementsHelperInterface barcodeMeasurementsHelper) {
+    public NodeBarcodeProvider(ImageFetcherInterface imageFetcher) {
         this.imageFetcher = imageFetcher;
-        this.barcodeMeasurementsHelper = barcodeMeasurementsHelper;
     }
 
     @Override
@@ -40,11 +37,7 @@ public class NodeBarcodeProvider implements BarcodeProviderInterface {
                     input
             );
             ImageIcon imageIcon = imageFetcher.fetchImage(url);
-            Barcode barcode = new Barcode(imageIcon, input);
-
-            if (barcodeMeasurementsHelper.getActualBarcodeHeight() == -2) {
-                barcodeMeasurementsHelper.setActualBarcodeHeight(calculateActualBarcodeHeight(barcode));
-            }
+            Barcode barcode = new Barcode(imageIcon, input, barcodeType);
 
             return barcode;
         } catch (CommunicationException ex) {

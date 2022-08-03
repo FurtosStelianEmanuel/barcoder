@@ -22,8 +22,6 @@ import barcoder.utilities.DrawingUtils;
 import barcoder.utilities.ImageUtils;
 import communication.http.ImageFetcher;
 import core.BarcodeGenerationException;
-import core.BarcodeMeasurementsHelper;
-import core.BarcodeMeasurementsHelperInterface;
 import core.BarcodeProviderInterface;
 import core.LocalBarcodeProviderInterface;
 import core.MasterFormInterface;
@@ -43,14 +41,14 @@ import utils.URLHelper;
  * @author Manel
  */
 public class Barcoder {
-    
+
     public Injector container;
     public MasterFormInterface masterForm;
-    
+
     public Barcoder(Injector container) throws BarcodeGenerationException {
         this.container = container;
     }
-    
+
     public void startup() {
         masterForm = container.resolveDependencies(MasterFormInterface.class);
         masterForm.onStartup();
@@ -69,7 +67,7 @@ public class Barcoder {
      */
     public static void main(String[] args) throws InterfaceNotImplemented, ClassNotInjectable, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, BarcodeGenerationException, UnresolvableDependency {
         Injector applicationContainer = new Injector(new HashMap<>(), new HashMap<>(), new ArrayList<>());
-        
+
         applicationContainer
                 .addDependency(ImageFetcherInterface.class, ImageFetcher.class)
                 .addDependency(FileManager.class, FileManager.class)
@@ -83,16 +81,15 @@ public class Barcoder {
                 .addDependency(BarcodeContainerFactory.class, BarcodeContainerFactory.class)
                 .addDependency(MasterFormInterface.class, MasterForm.class)
                 .addDependency(LocalBarcodeProviderInterface.class, LocalStorageBarcodeProvider.class)
-                .addDependency(BarcodeMeasurementsHelperInterface.class, BarcodeMeasurementsHelper.class)
                 .addDependency(ImageUtils.class, ImageUtils.class)
                 .addDependency(DrawingUtils.class, DrawingUtils.class)
                 .addDependency(BarcodeFormFactory.class, BarcodeFormFactory.class)
                 .addDependency(BarcodeTypeDecoder.class, TecItBarcodeTypeDecoder.class)
                 .addDependency(URLHelper.class, URLHelper.class);
-        
+
         applicationContainer.initialise();
-        
+
         new Barcoder(applicationContainer).startup();
     }
-    
+
 }

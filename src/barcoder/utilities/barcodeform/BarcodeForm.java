@@ -60,6 +60,11 @@ public class BarcodeForm extends javax.swing.JFrame implements BarcodeFormInterf
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         placeHolderTextField1.setFont(new java.awt.Font("Times New Roman", 0, 15)); // NOI18N
+        placeHolderTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                placeHolderTextField1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 15)); // NOI18N
         jLabel1.setText("Barcode text :");
@@ -121,9 +126,17 @@ public class BarcodeForm extends javax.swing.JFrame implements BarcodeFormInterf
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        returnFormDataAndHideForm();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void placeHolderTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeHolderTextField1ActionPerformed
+        returnFormDataAndHideForm();
+    }//GEN-LAST:event_placeHolderTextField1ActionPerformed
+
+    private void returnFormDataAndHideForm() {
         adapter.onResponse(new BarcodeFormResult(placeHolderTextField1.getText(), getApiRepresentationOfBarcodeType()));
         setVisible(false);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }
 
     private String getApiRepresentationOfBarcodeType() {
         return barcodeDecoder.getApiSpecificValueFromCasualName((String) jComboBox1.getSelectedItem());

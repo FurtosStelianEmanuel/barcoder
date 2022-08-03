@@ -6,9 +6,9 @@
 package barcodegenerators.tec_it;
 
 import annotations.Injectable;
+import barcoder.utilities.BarcodeTypeDecoder;
 import core.Barcode;
 import core.BarcodeGenerationException;
-import core.BarcodeMeasurementsHelperInterface;
 import core.BarcodeProviderInterface;
 import core.communication.CommunicationException;
 import core.communication.http.ImageFetcherInterface;
@@ -26,13 +26,13 @@ public class TecItBarcodeProvider implements BarcodeProviderInterface {
 
     private final ImageFetcherInterface imageFetcher;
     private final String barcodeAPIUrl = "https://barcode.tec-it.com/barcode.ashx";
-    private final BarcodeMeasurementsHelperInterface barcodeMeasurementsHelper;
     private final URLHelper urlHelper;
+    private final BarcodeTypeDecoder barcodeTypeDecoder;
 
-    public TecItBarcodeProvider(ImageFetcherInterface imageFetcher, BarcodeMeasurementsHelperInterface barcodeMeasurementsHelper, URLHelper urlHelper) {
+    public TecItBarcodeProvider(ImageFetcherInterface imageFetcher, URLHelper urlHelper, BarcodeTypeDecoder barcodeTypeDecoder) {
         this.imageFetcher = imageFetcher;
-        this.barcodeMeasurementsHelper = barcodeMeasurementsHelper;
         this.urlHelper = urlHelper;
+        this.barcodeTypeDecoder = barcodeTypeDecoder;
     }
 
     @Override
@@ -47,11 +47,7 @@ public class TecItBarcodeProvider implements BarcodeProviderInterface {
                     Translate.On.getUrlEncoded()
             );
             ImageIcon imageIcon = imageFetcher.fetchImage(url);
-            Barcode barcode = new Barcode(imageIcon, input);
-
-            if (barcodeMeasurementsHelper.getActualBarcodeHeight() == -2) {
-                barcodeMeasurementsHelper.setActualBarcodeHeight(calculateActualBarcodeHeight(barcode));
-            }
+            Barcode barcode = new Barcode(imageIcon, input, barcodeTypeDecoder.getCasualNameFromApiSpecificValue(barcodeType));
 
             return barcode;
         } catch (CommunicationException ex) {

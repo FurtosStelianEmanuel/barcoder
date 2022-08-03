@@ -11,7 +11,9 @@ package barcoder.utilities;
  */
 public interface BarcodeTypeDecoder {
 
-    String getApiSpecificValueFromCasualName(String textRepresentation);
+    String getApiSpecificValueFromCasualName(String casualName);
 
     String[] getAllCasualNames();
+
+    String getCasualNameFromApiSpecificValue(String apiSpecificName);
 }

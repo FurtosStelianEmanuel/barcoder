@@ -19,6 +19,7 @@ import java.util.Map;
 public class TecItBarcodeTypeDecoder implements BarcodeTypeDecoder, BarcodeTypes {
 
     private final Map<String, String> casualBarcodeTypeNameAndApiSpecificValue;
+    private final Map<String, String> apiSpecificValueAndCasualBarcodeTypeName;
 
     public TecItBarcodeTypeDecoder() {
         casualBarcodeTypeNameAndApiSpecificValue = new LinkedHashMap() {
@@ -35,15 +36,29 @@ public class TecItBarcodeTypeDecoder implements BarcodeTypeDecoder, BarcodeTypes
                 put(BarcodeTypes.Names.UPCECompositeSymbology.getCasualName(), TecItBarcodeTypeDecoder.this.getUPCECompositeSymbology());
             }
         };
+
+        apiSpecificValueAndCasualBarcodeTypeName = new LinkedHashMap();
+        for (Map.Entry<String, String> entry : casualBarcodeTypeNameAndApiSpecificValue.entrySet()) {
+            apiSpecificValueAndCasualBarcodeTypeName.put(entry.getValue(), entry.getKey());
+        }
     }
 
     @Override
     public String getApiSpecificValueFromCasualName(String casualName) {
         if (!casualBarcodeTypeNameAndApiSpecificValue.containsKey(casualName)) {
-            return null;
+            return casualName;
         }
 
         return casualBarcodeTypeNameAndApiSpecificValue.get(casualName);
+    }
+
+    @Override
+    public String getCasualNameFromApiSpecificValue(String apiSpecificName) {
+        if (!apiSpecificValueAndCasualBarcodeTypeName.containsKey(apiSpecificName)) {
+            return apiSpecificName;
+        }
+
+        return apiSpecificValueAndCasualBarcodeTypeName.get(apiSpecificName);
     }
 
     @Override

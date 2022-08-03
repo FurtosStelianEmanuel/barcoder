@@ -15,10 +15,12 @@ public class Barcode {
 
     private final ImageIcon imageRepresentation;
     private final String textRepresentation;
+    private final String barcodeType;
 
-    public Barcode(ImageIcon imageRepresentation, String textRepresentation) {
+    public Barcode(ImageIcon imageRepresentation, String textRepresentation, String barcodeType) {
         this.imageRepresentation = imageRepresentation;
         this.textRepresentation = textRepresentation;
+        this.barcodeType = barcodeType;
     }
 
     public ImageIcon getImageRepresentation() {
@@ -27,5 +29,9 @@ public class Barcode {
 
     public String getTextRepresentation() {
         return textRepresentation;
+    }
+
+    public String getBarcodeType() {
+        return barcodeType;
     }
 }

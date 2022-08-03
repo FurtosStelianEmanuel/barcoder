@@ -18,8 +18,6 @@ public interface BarcodeContainerInterface {
 
     List<DrawableBarcode> getBarcodes();
 
-    void addBarcode(DrawableBarcode barcode);
-
     void addBarcode(Barcode barcode);
 
     void deleteBarcode(DrawableBarcode barcode);

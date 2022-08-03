@@ -19,12 +19,12 @@ public class DrawableBarcode extends Barcode {
 
     private boolean isHovered = false;
 
-    public DrawableBarcode(ImageIcon imageRepresentation, String textRepresentation) {
-        super(imageRepresentation, textRepresentation);
+    public DrawableBarcode(ImageIcon imageRepresentation, String textRepresentation, int textHeight, String barcodeType) {
+        super(imageRepresentation, textRepresentation, barcodeType);
     }
 
     public DrawableBarcode(Barcode barcode) {
-        super(barcode.getImageRepresentation(), barcode.getTextRepresentation());
+        super(barcode.getImageRepresentation(), barcode.getTextRepresentation(), barcode.getBarcodeType());
         this.location = new Point(0, 0);
     }
 

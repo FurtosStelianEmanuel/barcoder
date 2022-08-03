@@ -37,6 +37,7 @@ public class BarcodeContainerSerializer {
     private final ImageUtils imageUtils;
 
     private final String storedImageExtension = FileManager.FileExtensions.PNG.representation;
+    private final String fileNameFormat = "%s.%s";
 
     public BarcodeContainerSerializer(PathManager pathManager, LocalBarcodeProviderInterface barcodeProvider, BarcodeContainerFactory barcodeContainerFactory, ImageUtils imageUtils) {
         this.pathManager = pathManager;
@@ -52,7 +53,7 @@ public class BarcodeContainerSerializer {
 
         for (core.ui.DrawableBarcode drawableBarcode : barcodeContainer.getBarcodes()) {
             BufferedImage bufferedImage = imageUtils.toBufferedImage(drawableBarcode.getImageRepresentation().getImage());
-            String fileName = String.format("%s.s", UUID.randomUUID().toString(), storedImageExtension);
+            String fileName = String.format(fileNameFormat, UUID.randomUUID().toString(), storedImageExtension);
             Path filePath = Paths.get(pathManager.getPathFor(PathManager.Keys.SetupWritePath).toString(), fileName);
 
             try {
