@@ -62,7 +62,7 @@ public class BarcodeContainerSerializer {
                 throw new SetupException(ex);
             }
 
-            Barcode serializableBarcode = new Barcode(filePath.toString(), drawableBarcode.getTextRepresentation());
+            Barcode serializableBarcode = new Barcode(filePath.toString(), drawableBarcode.getTextRepresentation(), drawableBarcode.getBarcodeType());
             serializableContainer.barcodes.add(serializableBarcode);
         }
 
@@ -91,7 +91,7 @@ public class BarcodeContainerSerializer {
             barcodeContainer.setSize(serializedContainer.width, serializedContainer.height);
 
             for (Barcode serializedBarcode : serializedContainer.barcodes) {
-                core.Barcode barcode = barcodeProvider.getBarcodeFromUrl(serializedBarcode.imagePath, serializedBarcode.stringRepresentation);
+                core.Barcode barcode = barcodeProvider.getBarcodeFromUrl(serializedBarcode.imagePath, serializedBarcode.stringRepresentation, serializedBarcode.barcodeType);
                 barcodeContainer.addBarcode(barcode);
             }
 

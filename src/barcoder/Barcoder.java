@@ -41,19 +41,6 @@ import utils.URLHelper;
  * @author Manel
  */
 public class Barcoder {
-
-    public Injector container;
-    public MasterFormInterface masterForm;
-
-    public Barcoder(Injector container) throws BarcodeGenerationException {
-        this.container = container;
-    }
-
-    public void startup() {
-        masterForm = container.resolveDependencies(MasterFormInterface.class);
-        masterForm.onStartup();
-    }
-
     /**
      * @param args the command line arguments
      * @throws banana.exceptions.InterfaceNotImplemented
@@ -92,4 +79,15 @@ public class Barcoder {
         new Barcoder(applicationContainer).startup();
     }
 
+    public Injector container;
+    public MasterFormInterface masterForm;
+
+    public Barcoder(Injector container) throws BarcodeGenerationException {
+        this.container = container;
+    }
+
+    public void startup() {
+        masterForm = container.resolveDependencies(MasterFormInterface.class);
+        masterForm.onStartup();
+    }
 }

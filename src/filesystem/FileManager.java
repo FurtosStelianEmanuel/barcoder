@@ -21,15 +21,6 @@ import java.nio.file.Paths;
 @Injectable
 public class FileManager {
 
-    public enum FileExtensions {
-        Json("json"),
-        PNG("png");
-        public final String representation;
-
-        private FileExtensions(String representation) {
-            this.representation = representation;
-        }
-    }
 
     public void outputStringToFile(String toStore, Path path, String fileName, FileExtensions fileExtension) throws FileSystemException {
         FileWriter file = null;
@@ -56,6 +47,16 @@ public class FileManager {
             return new String(encoded, Charset.forName("UTF-8"));
         } catch (IOException ex) {
             throw new FileSystemException(ex);
+        }
+    }
+    
+    public enum FileExtensions {
+        Json("json"),
+        PNG("png");
+        public final String representation;
+        
+        private FileExtensions(String representation) {
+            this.representation = representation;
         }
     }
 }

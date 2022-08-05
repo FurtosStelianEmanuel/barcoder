@@ -24,10 +24,6 @@ public class PathManager {
         pathStore = new HashMap();
     }
 
-    public enum Keys {
-        SetupWritePath,
-        SetupReadPath
-    }
 
     public boolean setPathFor(Keys keyToSet) {
         JFileChooser fileChooser = new JFileChooser();
@@ -45,5 +41,10 @@ public class PathManager {
 
     public Path getPathFor(Keys key) {
         return pathStore.containsKey(key.name()) ? pathStore.get(key.name()) : null;
+    }
+    
+    public enum Keys {
+        SetupWritePath,
+        SetupReadPath
     }
 }

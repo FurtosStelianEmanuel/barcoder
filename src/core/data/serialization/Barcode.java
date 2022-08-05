@@ -13,12 +13,14 @@ public class Barcode {
 
     public String imagePath;
     public String stringRepresentation;
+    public String barcodeType;
 
     public Barcode() {
     }
 
-    public Barcode(String imagePath, String stringRepresentation) {
+    public Barcode(String imagePath, String stringRepresentation, String barcodeType) {
         this.imagePath = imagePath;
         this.stringRepresentation = stringRepresentation;
+        this.barcodeType = barcodeType;
     }
 }

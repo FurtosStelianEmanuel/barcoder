@@ -11,5 +11,5 @@ package core;
  */
 public interface LocalBarcodeProviderInterface {
 
-    Barcode getBarcodeFromUrl(String url, String textRepresentation) throws BarcodeGenerationException;
+    Barcode getBarcodeFromUrl(String url, String textRepresentation, String barcodeType) throws BarcodeGenerationException;
 }

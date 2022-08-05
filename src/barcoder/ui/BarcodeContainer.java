@@ -38,6 +38,8 @@ import ui.extensions.ComponentResizer;
  */
 @Injectable(ResolveWithNewInstance = true)
 public class BarcodeContainer extends JFrame implements BarcodeContainerInterface {
+    private static final Cursor CURSOR_DEFAULT = new Cursor(Cursor.DEFAULT_CURSOR);
+    private static final Cursor CURSOR_DELETE = new Cursor(Cursor.HAND_CURSOR);
 
     private final List<DrawableBarcode> barcodes;
     private final BarcodeContainerPainter painter;
@@ -51,8 +53,6 @@ public class BarcodeContainer extends JFrame implements BarcodeContainerInterfac
     private final Dimension initialContainerSize = new Dimension(400, 600);
     private boolean isHighlightingEnabled = true;
     private boolean isDeleteEnabled = false;
-    private static final Cursor CURSOR_DEFAULT = new Cursor(Cursor.DEFAULT_CURSOR);
-    private static final Cursor CURSOR_DELETE = new Cursor(Cursor.HAND_CURSOR);
     private final DrawingUtils drawingUtils;
 
     public BarcodeContainer(Styles styles, ControlPanelFactory controlPanelFactory, ImageUtils imageUtils, DrawingUtils drawingUtils) {
@@ -225,8 +225,27 @@ public class BarcodeContainer extends JFrame implements BarcodeContainerInterfac
         repaint();
     }
 
-    private class BarcodeContainerPainter extends JPanel {
+    private void setPainterSize() {
+        painter.setSize(getWidth(), getHeight() - controlPanelHeight);
+    }
 
+    private void positionAndResizeControlPanel() {
+        controlPanel.setLocation(0, getHeight() - controlPanelHeight);
+        controlPanel.setSize(getWidth(), controlPanelHeight);
+    }
+
+    private static class AutoAlignParameters {
+
+        static int startX = 20, staryY = 20, spacingX = 20, spacingY = 20;
+    }
+
+    private static class BarcodeTypeParameters {
+
+        static int height = 30;
+    }
+
+    private class BarcodeContainerPainter extends JPanel {
+        
         @Override
         public void paintComponent(Graphics g) {
             Graphics2D g2d = (Graphics2D) g;
@@ -249,24 +268,5 @@ public class BarcodeContainer extends JFrame implements BarcodeContainerInterfac
                 drawingUtils.drawCenteredString(g, drawableBarcode.getBarcodeType(), barcodeTypeBox, styles.textFont);
             }
         }
-    }
-
-    private void setPainterSize() {
-        painter.setSize(getWidth(), getHeight() - controlPanelHeight);
-    }
-
-    private static class AutoAlignParameters {
-
-        static int startX = 20, staryY = 20, spacingX = 20, spacingY = 20;
-    }
-
-    private static class BarcodeTypeParameters {
-
-        static int height = 30;
-    }
-
-    private void positionAndResizeControlPanel() {
-        controlPanel.setLocation(0, getHeight() - controlPanelHeight);
-        controlPanel.setSize(getWidth(), controlPanelHeight);
     }
 }
