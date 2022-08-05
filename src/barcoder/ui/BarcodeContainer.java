@@ -38,6 +38,7 @@ import ui.extensions.ComponentResizer;
  */
 @Injectable(ResolveWithNewInstance = true)
 public class BarcodeContainer extends JFrame implements BarcodeContainerInterface {
+
     private static final Cursor CURSOR_DEFAULT = new Cursor(Cursor.DEFAULT_CURSOR);
     private static final Cursor CURSOR_DELETE = new Cursor(Cursor.HAND_CURSOR);
 
@@ -245,22 +246,28 @@ public class BarcodeContainer extends JFrame implements BarcodeContainerInterfac
     }
 
     private class BarcodeContainerPainter extends JPanel {
-        
+
         @Override
         public void paintComponent(Graphics g) {
             Graphics2D g2d = (Graphics2D) g;
+
             g2d.setColor(styles.background);
             g2d.fillRect(0, 0, painter.getWidth(), painter.getHeight());
 
+            g2d.setColor(styles.text);
+            g2d.drawRect(0, 0, getWidth() - 2, getHeight() - 2);
+
             for (DrawableBarcode drawableBarcode : barcodes) {
-                if (!isHighlightingEnabled || highlightedBarcode == null || highlightedBarcode == drawableBarcode) {
-                    Image image = drawableBarcode.getImageRepresentation().getImage();
-                    g2d.drawImage(
-                            image,
-                            (int) drawableBarcode.getLocation().getX(),
-                            (int) drawableBarcode.getLocation().getY(),
-                            this);
+                if (isHighlightingEnabled && highlightedBarcode != null && highlightedBarcode != drawableBarcode) {
+                    continue;
                 }
+
+                Image image = drawableBarcode.getImageRepresentation().getImage();
+                g2d.drawImage(
+                        image,
+                        (int) drawableBarcode.getLocation().getX(),
+                        (int) drawableBarcode.getLocation().getY(),
+                        this);
 
                 Rectangle barcodeTypeBox = new Rectangle((int) (drawableBarcode.getLocation().getX()), (int) (drawableBarcode.getLocation().getY() + drawableBarcode.getImageRepresentation().getIconHeight()), (int) drawableBarcode.getImageRepresentation().getIconWidth(), BarcodeTypeParameters.height);
                 g2d.setColor(styles.barcodeBackground);

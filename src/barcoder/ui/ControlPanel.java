@@ -73,7 +73,6 @@ public class ControlPanel extends javax.swing.JPanel implements BarcodeContainer
         setName(""); // NOI18N
 
         jButton1.setText("Add");
-        jButton1.setBorderPainted(false);
         jButton1.setFocusPainted(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,7 +81,6 @@ public class ControlPanel extends javax.swing.JPanel implements BarcodeContainer
         });
 
         jToggleButton1.setText("Highlighting");
-        jToggleButton1.setBorderPainted(false);
         jToggleButton1.setFocusPainted(false);
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -91,7 +89,6 @@ public class ControlPanel extends javax.swing.JPanel implements BarcodeContainer
         });
 
         jToggleButton2.setText("Remove");
-        jToggleButton2.setBorderPainted(false);
         jToggleButton2.setFocusPainted(false);
         jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -100,7 +97,6 @@ public class ControlPanel extends javax.swing.JPanel implements BarcodeContainer
         });
 
         jButton2.setText("Move container");
-        jButton2.setBorderPainted(false);
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
         jButton2.setFocusPainted(false);
         jButton2.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -115,7 +111,6 @@ public class ControlPanel extends javax.swing.JPanel implements BarcodeContainer
         });
 
         jButton3.setText("Deactivate container");
-        jButton3.setBorderPainted(false);
         jButton3.setFocusPainted(false);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
